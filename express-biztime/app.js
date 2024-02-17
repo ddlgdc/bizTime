@@ -10,6 +10,8 @@ const app = express();
 const companiesRouter = require('./routes/companies');
 // imports the 'companiesRouter' object from thje './routes/companies'
 
+const invoincesRouter = require('./routes/invoices');
+
 const ExpressError = require("./expressError")
 
 app.use(express.json());

@@ -43,9 +43,19 @@ router.get('/:code', async (req, res, next) => {
             return res.status(404).json({ message: 'Company not found' });
         }
 
-        return res.json({ company: result.rows[0] });
-        }
+        const company = result.rows[0];
+        const invoiceResult = await db.query('SELECT id FROM invoices WHERE comp_code = $1', [code]);
+        const invoices = invoiceResult.rows.map(row => row.id);
 
+        return res.json({
+            company: {
+                code: company.code,
+                name: company.name,
+                description: company.description,
+                invoices: invoices
+            }
+        });
+    }
     catch (err) {
         return next(err);
     }
